@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   <div class="clock" style=" --clr:#ff0077;">
+    <div class="circl">
+        <div class="dots hr_dots"></div>
+        <svg>
+          <circle cy="80" cx="80" r="70"></circle>
+          <circle cy="80" cx="80" r="70" id="hh"></circle>
+        </svg>
+        <div id="hours">00</div>
+    </div>
+    <div class="circl" style=" --clr:#0095ff;">
+        <div class="dots min_dots"></div>
+        <svg>
+            <circle cy="80" cx="80" r="70"></circle>
+            <circle cy="80" cx="80" r="70" id="mm"></circle>
+          </svg>
+        <div id="minutes">00</div>
+    </div>
+    <div class="circl" style=" --clr:#00ff95;">
+        <div class="dots sec_dots"></div>
+        <svg>
+            <circle cy="80" cx="80" r="70"></circle>
+            <circle cy="80" cx="80" r="70" id="ss"></circle>
+          </svg>
+        <div id="secends">00</div>
+    </div>
+    <div class="asp">
+        <div id="ampm"></div>
+    </div>
+   </div>
+   <script>
+
+setInterval(()=>{
+   //Define ui element
+   let hour = document.getElementById('hours');
+   let minute = document.getElementById('minutes');
+   let secend = document.getElementById('secends');
+   let ampm = document.getElementById('ampm');
+   //define design element
+   let hh = document.getElementById('hh');
+   let mm = document.getElementById('mm');
+   let ss = document.getElementById('ss');
+   //define design circle elment
+   let dot_hr = document.querySelector('.hr_dots');
+   let dot_min = document.querySelector('.min_dots');
+   let dot_sec = document.querySelector('.sec_dots');
+//Get local time
+   let h = new Date().getHours();
+   let m = new Date().getMinutes();
+   let s = new Date().getSeconds();
+   let p_a= h >12?"PM":"AM";
+   //convert 24 hr to 12 hr
+   if(h>12){
+    h = h -12;
+   }
+   //add zero before single digit
+h = (h < 10)? "0"+h:h;
+m = (m < 10)? "0"+m:m;
+s = (s < 10)? "0"+s:s;
+//print to html page
+hour.innerHTML=h;
+minute.innerHTML=m;
+secend.innerHTML=s;
+ampm.innerHTML=p_a;
+//add to design element
+hh.style.strokeDashoffset= 440-(440 * h) / 12;
+mm.style.strokeDashoffset= 440-(440 * m) / 60;
+ss.style.strokeDashoffset= 440-(440 * s) / 60;
+//add design circle
+dot_sec.style.transform = `rotate(${ s * 6}deg)`;
+dot_min.style.transform = `rotate(${ m * 6}deg)`;
+dot_hr.style.transform = `rotate(${ h * 30}deg)`;
+})
+
+   </script>
+</body>
+</html>
